@@ -1,0 +1,33 @@
+name:                cis194
+version:             0.1.0.0
+github:              "channikhabra/playing-around-with-haskell/cis194"
+license:             BSD3
+author:              "Charanjit Singh"
+maintainer:          "ckhabra+cis194solution@gmail.com"
+copyright:           "2018 Charanjit Singh"
+
+extra-source-files:
+- README.md
+
+# To avoid duplicated efforts in documentation and dealing with the
+# complications of embedding Haddock markup inside cabal files, it is
+# common to point users to the README.md file.
+description:         Solutions for cis-194 Haskell course written with BDD using HSpec
+
+dependencies:
+- base >= 4.7 && < 5
+
+library:
+  source-dirs: src
+
+tests:
+  cis194-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - cis194
+    - hspec
