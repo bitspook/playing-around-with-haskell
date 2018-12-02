@@ -1,12 +1,11 @@
-module LuhnSpec ( main, spec ) where
+module LuhnSpec
+  ( spec
+  ) where
 
 import           Test.Hspec
 
 import           Luhn
 import           Luhn.Internal
-
-main :: IO ()
-main = hspec spec
 
 spec :: Spec
 spec = do
