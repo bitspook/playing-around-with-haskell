@@ -1,9 +1,9 @@
 -- CIS 194 Homework 2
 
 module LogAnalysis.Internal
-  ( MessageType
-  , LogMessage
-  , MessageTree
+  ( MessageType(..)
+  , LogMessage(..)
+  , MessageTree(..)
   , testParse
   , testWhatWentWrong
   ) where
