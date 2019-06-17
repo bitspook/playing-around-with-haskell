@@ -16,6 +16,7 @@ spec = do
       parseMessage "I 29 la la la" `shouldBe` LogMessage Info 29 "la la la"
       parseMessage "This is not in the right format" `shouldBe`
         Unknown "This is not in the right format"
+
   describe "parse" $ do
     it "should parse multi-line string of messages" $ do
       parse
@@ -40,3 +41,14 @@ spec = do
         , LogMessage Info 4764 "He trusts to you to set them free,"
         , LogMessage Info 858 "your pocket?' he went on, turning to Alice."
         ]
+
+  describe "insert" $ do
+    it "should not insert Unkown messages" $
+      insert (Unknown "lol") ( Node Leaf (LogMessage Info 3 "lol") Leaf ) `shouldBe` (Node Leaf (LogMessage Info 3 "lol") Leaf)
+    it "should insert message into empty tree" $
+      insert (LogMessage Info 5 "lol") Leaf `shouldBe`
+      Node Leaf (LogMessage Info 5 "lol") Leaf
+    it "should insert smaller timestamp message into left sub-tree" $
+      insert (LogMessage Info 1 "lol") (Node Leaf (LogMessage Info 5 "lol") Leaf) `shouldBe` Node (Node Leaf (LogMessage Info 1 "lol") Leaf) (LogMessage Info 5 "lol") Leaf
+    it "should insert bigger timestamp message into right sub-tree" $
+      insert (LogMessage Info 9 "lol") (Node Leaf (LogMessage Info 5 "lol") Leaf) `shouldBe` Node Leaf (LogMessage Info 5 "lol") (Node Leaf (LogMessage Info 9 "lol") Leaf)

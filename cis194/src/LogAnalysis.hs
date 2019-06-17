@@ -1,6 +1,7 @@
 module LogAnalysis
   ( parseMessage
   , parse
+  , insert
   ) where
 
 import           LogAnalysis.Internal
@@ -20,3 +21,6 @@ parse = mapFunc parseMessage . lines
       case str of
         []   -> []
         x:xs -> func x : mapFunc func xs
+
+insert :: LogMessage -> MessageTree -> MessageTree
+insert _ _ = Leaf
