@@ -44,11 +44,66 @@ spec = do
 
   describe "insert" $ do
     it "should not insert Unkown messages" $
-      insert (Unknown "lol") ( Node Leaf (LogMessage Info 3 "lol") Leaf ) `shouldBe` (Node Leaf (LogMessage Info 3 "lol") Leaf)
+      insert (Unknown "lol") (Node Leaf (LogMessage Info 3 "lol") Leaf) `shouldBe`
+      (Node Leaf (LogMessage Info 3 "lol") Leaf)
     it "should insert message into empty tree" $
       insert (LogMessage Info 5 "lol") Leaf `shouldBe`
       Node Leaf (LogMessage Info 5 "lol") Leaf
     it "should insert smaller timestamp message into left sub-tree" $
-      insert (LogMessage Info 1 "lol") (Node Leaf (LogMessage Info 5 "lol") Leaf) `shouldBe` Node (Node Leaf (LogMessage Info 1 "lol") Leaf) (LogMessage Info 5 "lol") Leaf
+      insert
+        (LogMessage Info 1 "lol")
+        (Node Leaf (LogMessage Info 5 "lol") Leaf) `shouldBe`
+      Node
+        (Node Leaf (LogMessage Info 1 "lol") Leaf)
+        (LogMessage Info 5 "lol")
+        Leaf
     it "should insert bigger timestamp message into right sub-tree" $
-      insert (LogMessage Info 9 "lol") (Node Leaf (LogMessage Info 5 "lol") Leaf) `shouldBe` Node Leaf (LogMessage Info 5 "lol") (Node Leaf (LogMessage Info 9 "lol") Leaf)
+      insert
+        (LogMessage Info 9 "lol")
+        (Node Leaf (LogMessage Info 5 "lol") Leaf) `shouldBe`
+      Node
+        Leaf
+        (LogMessage Info 5 "lol")
+        (Node Leaf (LogMessage Info 9 "lol") Leaf)
+
+  describe "build" $ do
+    it "should build a correct MessageTree from a list of LogMessages" $
+      build
+        [ LogMessage Info 5053 "pci_id: con ing!"
+        , LogMessage
+            Info
+            4681
+            "ehci 0xf43d000:15: regista14: [0xbffff 0xfed nosabled 00-02] Zonseres: brips byted nored)"
+        , LogMessage
+            Warning
+            3654
+            "e8] PGTT ASF! 00f00000003.2: 0x000 - 0000: 00009dbfffec00000: Pround/f1743colled"
+        , LogMessage Info 4076 "verse.'"
+        , LogMessage Info 4764 "He trusts to you to set them free,"
+        , LogMessage Info 858 "your pocket?' he went on, turning to Alice."
+        ] `shouldBe`
+      Node
+        (Node
+           (Node
+              Leaf
+              (LogMessage Info 858 "your pocket?' he went on, turning to Alice.")
+              Leaf)
+           (LogMessage Info 4076 "verse.'")
+           (Node
+              Leaf
+              (LogMessage
+                 Info
+                 3654
+                 "e8] PGTT ASF! 00f00000003.2: 0x000 - 0000: 00009dbfffec00000: Pround/f1743colled")
+              Leaf))
+        (LogMessage Info 4681 "lol")
+        (Node
+           (Node
+              Leaf
+              (LogMessage
+                 Info
+                 4764
+                 "ehci 0xf43d000:15: regista14: [0xbffff 0xfed nosabled 00-02] Zonseres: brips byted nored)")
+              Leaf)
+           (LogMessage Info 5053 "pci_id: con ing!")
+           Leaf)
