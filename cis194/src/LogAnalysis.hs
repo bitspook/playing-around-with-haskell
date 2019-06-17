@@ -14,4 +14,9 @@ parseMessage str =
     otherwise   -> Unknown str
 
 parse :: String -> [LogMessage]
-parse = fmap parseMessage . lines
+parse = mapFunc parseMessage . lines
+  where
+    mapFunc func str =
+      case str of
+        []   -> []
+        x:xs -> func x : mapFunc func xs
