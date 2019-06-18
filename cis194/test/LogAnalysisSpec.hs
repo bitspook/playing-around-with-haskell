@@ -107,3 +107,45 @@ spec = do
               Leaf))
         (LogMessage Info 5053 "pci_id: con ing!")
         Leaf
+
+  describe "inOrder" $ do
+    it "should build a srtted list of LogMessages from MessageTree" $
+      inOrder
+        (Node
+           (Node
+              (Node
+                 (Node
+                    Leaf
+                    (LogMessage
+                       Info
+                       858
+                       "your pocket?' he went on, turning to Alice.")
+                    Leaf)
+                 (LogMessage
+                    Warning
+                    3654
+                    "e8] PGTT ASF! 00f00000003.2: 0x000 - 0000: 00009dbfffec00000: Pround/f1743colled")
+                 (Node Leaf (LogMessage Info 4076 "verse.'") Leaf))
+              (LogMessage
+                 Info
+                 4681
+                 "ehci 0xf43d000:15: regista14: [0xbffff 0xfed nosabled 00-02] Zonseres: brips byted nored)")
+              (Node
+                 Leaf
+                 (LogMessage Info 4764 "He trusts to you to set them free,")
+                 Leaf))
+           (LogMessage Info 5053 "pci_id: con ing!")
+           Leaf) `shouldBe`
+      [ LogMessage Info 858 "your pocket?' he went on, turning to Alice."
+      , LogMessage
+          Warning
+          3654
+          "e8] PGTT ASF! 00f00000003.2: 0x000 - 0000: 00009dbfffec00000: Pround/f1743colled"
+      , LogMessage Info 4076 "verse.'"
+      , LogMessage
+          Info
+          4681
+          "ehci 0xf43d000:15: regista14: [0xbffff 0xfed nosabled 00-02] Zonseres: brips byted nored)"
+      , LogMessage Info 4764 "He trusts to you to set them free,"
+      , LogMessage Info 5053 "pci_id: con ing!"
+      ]

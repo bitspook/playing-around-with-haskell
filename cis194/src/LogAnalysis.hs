@@ -3,6 +3,7 @@ module LogAnalysis
   , parse
   , insert
   , build
+  , inOrder
   ) where
 
 import           LogAnalysis.Internal
@@ -35,3 +36,7 @@ build = insertIn Leaf
   where
     insertIn tree []     = tree
     insertIn tree (m:ms) = insertIn (insert m tree) ms
+
+inOrder :: MessageTree -> [LogMessage]
+inOrder Leaf                  = []
+inOrder (Node left msg right) = (inOrder left) ++ [msg] ++ (inOrder right)
