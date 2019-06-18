@@ -31,4 +31,7 @@ insert m1@(LogMessage _ t1 _) (Node left m2@(LogMessage _ t2 _) right)
   | t1 < t2 = Node (insert m1 left) m2 right
 
 build :: [LogMessage] -> MessageTree
-build _ = Leaf
+build = insertIn Leaf
+  where
+    insertIn tree []     = tree
+    insertIn tree (m:ms) = insertIn (insert m tree) ms
