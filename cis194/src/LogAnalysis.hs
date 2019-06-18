@@ -43,11 +43,10 @@ inOrder Leaf                  = []
 inOrder (Node left msg right) = (inOrder left) ++ [msg] ++ (inOrder right)
 
 whatWentWrong :: [LogMessage] -> [String]
-whatWentWrong [] = []
-whatWentWrong ms = pickImportant (sortByTs ms)
+whatWentWrong = pickImportant . sortByTs
   where
-    sortByTs :: [LogMessage] -> [LogMessage]
-    sortByTs xs = inOrder (build xs)
+    sortByTs = inOrder . build
+    pickImportant [] = []
     pickImportant (x:xs) = case x of
       (LogMessage (Error p) _ msg) -> (if p > 50 then [msg] else []) ++ whatWentWrong xs
       otherwise                    -> whatWentWrong xs
