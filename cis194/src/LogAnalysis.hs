@@ -4,6 +4,7 @@ module LogAnalysis
   , insert
   , build
   , inOrder
+  , whatWentWrong
   ) where
 
 import           LogAnalysis.Internal
@@ -40,3 +41,13 @@ build = insertIn Leaf
 inOrder :: MessageTree -> [LogMessage]
 inOrder Leaf                  = []
 inOrder (Node left msg right) = (inOrder left) ++ [msg] ++ (inOrder right)
+
+whatWentWrong :: [LogMessage] -> [String]
+whatWentWrong [] = []
+whatWentWrong ms = pickImportant (sortByTs ms)
+  where
+    sortByTs :: [LogMessage] -> [LogMessage]
+    sortByTs xs = inOrder (build xs)
+    pickImportant (x:xs) = case x of
+      (LogMessage (Error p) _ msg) -> (if p > 50 then [msg] else []) ++ whatWentWrong xs
+      otherwise                    -> whatWentWrong xs
