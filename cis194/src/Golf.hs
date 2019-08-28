@@ -1,5 +1,5 @@
 module Golf
-  (skips) where
+  (skips, localMaxima) where
 
 takeEvery :: [x] -> Int -> [x]
 takeEvery xs 0 = xs
@@ -16,3 +16,14 @@ skips xs = skips_ 0
     skips_ i
       | i == length xs = []
       | otherwise = takeEvery xs i : skips_ (i + 1)
+
+localMaxima :: [Integer] -> [Integer]
+localMaxima as =
+  case as of
+    [] -> []
+    [x] -> []
+    (a:b:[]) -> []
+    (a:b:c:xs) ->
+      if b > a && b > c
+        then b : (localMaxima (c : xs))
+        else localMaxima (b : c : xs)
