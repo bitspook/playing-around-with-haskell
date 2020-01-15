@@ -1,6 +1,7 @@
 module LightsOut where
 
 import           Data.List
+import           Data.Maybe
 import           Debug.Trace
 
 data GF2 = Zero | One deriving (Show, Eq)
@@ -11,9 +12,6 @@ add One  Zero = One
 add One  One  = Zero
 add Zero Zero = Zero
 
-sub :: GF2 -> GF2 -> GF2
-sub = add
-
 type Cell = (Integer, Integer)
 type Light = (Cell, GF2)
 type LightsGrid = [Light]
@@ -22,9 +20,7 @@ addLights :: Light -> Light -> Light
 addLights (a, l1) (_, l2) = (a, add l1 l2)
 
 findLight :: LightsGrid -> Cell -> Light
-findLight g c = case find (\l' -> fst l' == c) g of
-        Just val -> val
-        Nothing  -> (c, Zero)
+findLight g c = fromMaybe (c, Zero) $ find (\l' -> fst l' == c) g
 
 pressBtn :: LightsGrid -> Cell -> LightsGrid
 pressBtn grid cell = case cell of
