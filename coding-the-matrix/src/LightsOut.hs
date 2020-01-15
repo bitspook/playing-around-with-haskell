@@ -3,17 +3,6 @@ module LightsOut where
 import           Data.List
 import           Debug.Trace
 
-grid' :: LightsGrid
-grid' =
-        [ ((0, 0), One)
-        , ((0, 1), Zero)
-        , ((1, 0), One)
-        , ((1, 1), Zero)
-        ]
-
-move' :: LightsGrid
-move' = [((0, 0), One), ((0, 1), One), ((1, 0), One)]
-
 data GF2 = Zero | One deriving (Show, Eq)
 
 add :: GF2 -> GF2 -> GF2
