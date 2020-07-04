@@ -1,4 +1,4 @@
-module Week4Spec
+module Week4WholemealSpec
   ( spec
   ) where
 
