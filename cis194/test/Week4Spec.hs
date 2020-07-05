@@ -6,6 +6,7 @@ import           Test.Hspec
 
 import           Week4.FoldingWithTrees
 import           Week4.MoreFolds
+import           Week4.SundarSieve
 import           Week4.Wholemeal
 
 spec :: Spec
@@ -33,3 +34,7 @@ spec = do
   describe "map'" $ do
     it "should map the function over a list to create new list of mapped values" $ do
       map' (2 *) [1, 2, 3, 4] `shouldBe` [2, 4, 6, 8]
+
+  describe "sundarSieve" $ do
+    it "should return list of odd prime numbers upto 2n + 2" $ do
+      sundarSieve 4 `shouldBe` [3, 5, 7]
