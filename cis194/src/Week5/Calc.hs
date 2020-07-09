@@ -11,3 +11,13 @@ eval x = case x of
 
 evalStr :: String -> Maybe Integer
 evalStr = fmap eval . parseExp Lit Add Mul
+
+class Expr a where
+  lit :: Integer -> a
+  add :: a -> a -> a
+  mul :: a -> a -> a
+
+instance Expr ExprT where
+  lit x = Lit x
+  add a b = Add a b
+  mul a b = Mul a b
