@@ -1,3 +1,5 @@
+{-# LANGUAGE FlexibleInstances    #-}
+{-# LANGUAGE TypeSynonymInstances #-}
 module Week5.Calc where
 
 import           Week5.ExprT
@@ -61,3 +63,13 @@ testInteger  = testExp :: Maybe Integer
 testBool     = testExp :: Maybe Bool
 testMM       = testExp :: Maybe MinMax
 testSat      = testExp :: Maybe Mod7
+
+---
+
+instance Expr VM.Program where
+  lit a = [VM.PushI a]
+  add a b = a ++ b ++ [VM.Add]
+  mul a b = a ++ b ++ [VM.Mul]
+
+compile :: String -> Maybe VM.Program
+compile = parseExp lit add mul

@@ -6,6 +6,7 @@ import           Test.Hspec
 
 import           Week5.Calc
 import           Week5.ExprT
+import qualified Week5.StackVM as VM
 
 spec :: Spec
 spec = do
@@ -30,3 +31,10 @@ spec = do
 
     it "should create valid instance for Mod7" $ do
       testSat `shouldBe` Just (Mod7 5)
+
+  describe "compile" $ do
+    it "should evaluate an expression correctly" $ do
+      let isCorrect a = case a of
+            Just (Right (VM.IVal n)) -> n == 10
+            _                        -> False
+      isCorrect (VM.stackVM <$> (compile "4 + 3 * 2")) `shouldBe` True
