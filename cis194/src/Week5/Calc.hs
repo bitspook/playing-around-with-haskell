@@ -2,6 +2,7 @@
 {-# LANGUAGE TypeSynonymInstances #-}
 module Week5.Calc where
 
+import qualified Data.Map      as M
 import           Week5.ExprT
 import           Week5.Parser
 import qualified Week5.StackVM as VM
@@ -73,3 +74,28 @@ instance Expr VM.Program where
 
 compile :: String -> Maybe VM.Program
 compile = parseExp lit add mul
+
+class HasVars a where
+  var :: String -> a
+
+data VarExperT = VLit Integer
+               | VVar String
+               | VAdd VarExperT VarExperT
+               | VMul VarExperT VarExperT
+  deriving (Show, Eq)
+
+instance Expr VarExperT where
+  lit a = VLit a
+  add a b = VAdd a b
+  mul a b = VMul a b
+
+instance HasVars VarExperT where
+  var x = VVar x
+
+instance HasVars (M.Map String Integer -> Maybe Integer) where
+  var x = M.lookup x
+
+instance Expr (M.Map String Integer -> Maybe Integer) where
+  lit a = \_ -> Just a
+  add a b = \map -> (+) <$> (a map) <*> (b map)
+  mul a b = \map -> (*) <$> (a map) <*> (b map)

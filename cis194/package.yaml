@@ -16,6 +16,7 @@ description:         Solutions for cis-194 Haskell course written with BDD using
 
 dependencies:
 - base >= 4.7 && < 5
+- containers
 
 library:
   source-dirs: src
