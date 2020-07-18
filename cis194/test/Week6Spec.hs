@@ -25,22 +25,22 @@ spec = do
     it "should convert Stream to List" $ do
       (take 4 $ streamToList (Cons 1 $ Cons 2 $ Cons 3 $ Cons 4 $ undefined)) `shouldBe` [1, 2, 3, 4]
 
-  describe "Stream Functor" $ do
+  describe "streamMap" $ do
     it "should have correct fmap implementation" $ do
-      (take 4 $ streamToList $ fmap (* 2) (Cons 1 $ Cons 2 $ Cons 3 $ Cons 4 $ undefined)) `shouldBe` [2, 4, 6, 8]
+      (take 4 $ streamToList $ streamMap (* 2) (Cons 1 $ Cons 2 $ Cons 3 $ Cons 4 $ undefined)) `shouldBe` [2, 4, 6, 8]
 
-  describe "sRepeat" $ do
+  describe "streamRepeat" $ do
     it "should create Stream by repeating given argument" $ do
-      (take 4 $ streamToList $ sRepeat 1) `shouldBe` [1, 1, 1, 1]
+      (take 4 $ streamToList $ streamRepeat 1) `shouldBe` [1, 1, 1, 1]
 
-  describe "sIterate" $ do
+  describe "streamFromSeed" $ do
     it "should create Stream with given seed and unfolding function" $ do
-      (take 4 $ streamToList $ sIterate ('x':) "o") `shouldBe` ["o", "xo", "xxo", "xxxo"]
+      (take 4 $ streamToList $ streamFromSeed ('x':) "o") `shouldBe` ["o", "xo", "xxo", "xxxo"]
 
   describe "sInterleave" $ do
     it "should interleave elements from two streams" $ do
-      (take 8 $ streamToList $ sInterleave (sRepeat 0) (sRepeat 1)) `shouldBe` [0, 1, 0, 1, 0, 1, 0, 1]
+      (take 8 $ streamToList $ sInterleave (streamRepeat 0) (streamRepeat 1)) `shouldBe` [0, 1, 0, 1, 0, 1, 0, 1]
 
   describe "sTake" $ do
     it "should create a list of given length from stream" $ do
-      (sTake 4 $ sRepeat 1) `shouldBe` [1, 1, 1, 1]
+      (sTake 4 $ streamRepeat 1) `shouldBe` [1, 1, 1, 1]

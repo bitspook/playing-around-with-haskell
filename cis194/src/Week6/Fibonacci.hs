@@ -17,14 +17,14 @@ data Stream a = Cons a (Stream a)
 streamToList :: Stream a -> [a]
 streamToList (Cons a s) = a:(streamToList s)
 
-instance Functor Stream where
-  fmap f (Cons a s) = Cons (f a) $ fmap f s
+streamMap :: (a -> b) -> Stream a -> Stream b
+streamMap f (Cons a s) = Cons (f a) $ streamMap f s
 
-sRepeat :: a -> Stream a
-sRepeat a = Cons a $ sRepeat a
+streamRepeat :: a -> Stream a
+streamRepeat a = Cons a $ streamRepeat a
 
-sIterate :: (a -> a) -> a -> Stream a
-sIterate f a = Cons a $ sIterate f (f a)
+streamFromSeed :: (a -> a) -> a -> Stream a
+streamFromSeed f a = Cons a $ streamFromSeed f (f a)
 
 sInterleave :: Stream a -> Stream a -> Stream a
 sInterleave (Cons x s) s2 = Cons x $ sInterleave s2 s
