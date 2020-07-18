@@ -44,3 +44,11 @@ spec = do
   describe "sTake" $ do
     it "should create a list of given length from stream" $ do
       (sTake 4 $ streamRepeat 1) `shouldBe` [1, 1, 1, 1]
+
+  describe "nats" $ do
+    it "should be a stream of natural numbers" $ do
+      (sTake 4 nats) `shouldBe` [0, 1, 2, 3]
+
+  describe "ruler" $ do
+    it "should implement ruler function" $ do
+      (sTake 10 ruler) `shouldBe` [0,1,0,2,0,1,0,3,0,1]

@@ -31,3 +31,11 @@ sInterleave (Cons x s) s2 = Cons x $ sInterleave s2 s
 
 sTake :: Int -> Stream a -> [a]
 sTake n = take n . streamToList
+
+nats :: Stream Integer
+nats = streamFromSeed (+ 1) 0
+
+ruler :: Stream Integer
+ruler = ruler' 0
+  where
+    ruler' n = sInterleave (streamRepeat n) (ruler' (n + 1))
