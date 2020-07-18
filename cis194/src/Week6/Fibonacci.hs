@@ -8,3 +8,6 @@ fib n = case n of
 
 fibs1 :: [Integer]
 fibs1 = fmap fib [0..]
+
+fibs2 :: [Integer]
+fibs2 = 0:1:zipWith (+) fibs2 (tail fibs2)
