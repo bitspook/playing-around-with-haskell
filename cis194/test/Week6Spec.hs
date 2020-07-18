@@ -20,3 +20,27 @@ spec = do
   describe "fibs2" $ do
     it "should return correct fibonacci series" $ do
       (take 30 $ fibs1) `shouldBe`[0,1,1,2,3,5,8,13,21,34,55,89,144,233,377,610,987,1597,2584,4181,6765,10946,17711,28657,46368,75025,121393,196418,317811,514229]
+
+  describe "streamToList" $ do
+    it "should convert Stream to List" $ do
+      (take 4 $ streamToList (Cons 1 $ Cons 2 $ Cons 3 $ Cons 4 $ undefined)) `shouldBe` [1, 2, 3, 4]
+
+  describe "Stream Functor" $ do
+    it "should have correct fmap implementation" $ do
+      (take 4 $ streamToList $ fmap (* 2) (Cons 1 $ Cons 2 $ Cons 3 $ Cons 4 $ undefined)) `shouldBe` [2, 4, 6, 8]
+
+  describe "sRepeat" $ do
+    it "should create Stream by repeating given argument" $ do
+      (take 4 $ streamToList $ sRepeat 1) `shouldBe` [1, 1, 1, 1]
+
+  describe "sIterate" $ do
+    it "should create Stream with given seed and unfolding function" $ do
+      (take 4 $ streamToList $ sIterate ('x':) "o") `shouldBe` ["o", "xo", "xxo", "xxxo"]
+
+  describe "sInterleave" $ do
+    it "should interleave elements from two streams" $ do
+      (take 8 $ streamToList $ sInterleave (sRepeat 0) (sRepeat 1)) `shouldBe` [0, 1, 0, 1, 0, 1, 0, 1]
+
+  describe "sTake" $ do
+    it "should create a list of given length from stream" $ do
+      (sTake 4 $ sRepeat 1) `shouldBe` [1, 1, 1, 1]
