@@ -1,4 +1,4 @@
-module Chapter4 where
+module Exercise42 where
 
 import qualified Data.Map as M
 
