@@ -30,6 +30,7 @@ in
     ];
     buildInputs = with compilerSet; [
       ghcide
+      pkgs.cabal-install
     ];
     withHoogle = false;
   };
